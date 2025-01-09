@@ -1,0 +1,58 @@
+<?php
+include('./config.php');
+
+session_start();
+
+
+if (!isset($_SESSION['userid'])){
+
+    header('location:login.php');
+    exit;
+
+}
+
+$program_query= $conn->query("SELECT program_id, program_name FROM Program");
+
+$student=[];
+if (isset($_POST['program_id']) && isset($_POST['date'])) {
+    $program_id = $_POST['program_id'];
+    $date = $_POST['date'];
+    $students_query = $conn->prepare("SELECT id, name FROM students WHERE program_id = ?");
+    $students_query->bind_param('i', $program_id);
+    $students_query->execute();
+    $students_result = $students_query->get_result();
+    while ($row = $students_result->fetch_assoc()) {
+        $students[] = $row;
+    }
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['attendance'])) {
+        $attendance = $_POST['attendance'] ?? [];
+
+        if (empty($attendance)) {
+            $error = "Please select attendance for all students.";
+        } else {
+            foreach ($attendance as $student_id => $status) {
+                $sql = $conn->prepare("INSERT INTO attendance (student_id, date, status)
+                                       VALUES (?, ?, ?)
+                                       ON DUPLICATE KEY UPDATE status = VALUES(status)");
+                $sql->bind_param('iss', $student_id, $date, $status);
+                $sql->execute();
+            }
+            $success = "Attendance recorded successfully!";
+        }
+    }
+}
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="submit"> </form>
+</body>
+</html>
