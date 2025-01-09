@@ -25,13 +25,14 @@
 
             <!-- Dropdown Menu -->
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div  class="btn  text-white mt-2"  id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         Menu
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+</div>
+                    <ul class="dropdown-menu dropdown-menu-start"  aria-labelledby="userDropdown">
                         <li><a class="dropdown-item" href="Students.php">Home</a></li>
                         <li><a class="dropdown-item " href="attendance.php">Attendance</a></li>
                         <li><a class="dropdown-item " href="attendanceview.php">View Attendance</a></li>
+                        <div class="dropdown-divider"></div>
 
                         <li><a class="dropdown-item text-danger" href="logout.php">Logout</a></li>
                     </ul>
